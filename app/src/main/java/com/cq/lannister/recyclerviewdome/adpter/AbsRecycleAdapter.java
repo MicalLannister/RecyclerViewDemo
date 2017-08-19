@@ -50,6 +50,9 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
                         if (mCheckedItemCount == 1 && mCheckStates.valueAt(0)) {
                             int lastSelectedPosition = mCheckStates.keyAt(0);
                             ((Checkable) mData.get(lastSelectedPosition)).setChecked(false);
+                            mCheckedItemCount = 0;
+                            mCheckStates.clear();
+                            // TODO: 2017/8/19 !isVisible ? just change data : (change data & update ui)
                             notifyItemChanged(lastSelectedPosition);
                         }
                         if (checked) {
@@ -57,9 +60,6 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
                             mCheckStates.put(position, true);
                             mCheckedItemCount = 1;
                             ((Checkable) mData.get(position)).setChecked(true);
-                        } else {
-                            mCheckStates.clear();
-                            mCheckedItemCount = 0;
                         }
                     } else if (mChoiceMode == CHOICE_MODE_MULTIPLE) {
                         boolean checked = !mCheckStates.get(position, false);
@@ -125,7 +125,7 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
         mCheckedItemCount = 0;
     }
 
-    public SparseBooleanArray getCheckedItemPositions() {
+    public SparseBooleanArray g() {
         if (mChoiceMode != CHOICE_MODE_NONE) {
             return mCheckStates;
         }
