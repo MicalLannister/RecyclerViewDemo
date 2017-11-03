@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,9 +51,6 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
                         if (mCheckedItemCount == 1 && mCheckStates.valueAt(0)) {
                             int lastSelectedPosition = mCheckStates.keyAt(0);
                             ((Checkable) mData.get(lastSelectedPosition)).setChecked(false);
-                            mCheckedItemCount = 0;
-                            mCheckStates.clear();
-                            // TODO: 2017/8/19 !isVisible ? just change data : (change data & update ui)
                             notifyItemChanged(lastSelectedPosition);
                         }
                         if (checked) {
@@ -60,6 +58,9 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
                             mCheckStates.put(position, true);
                             mCheckedItemCount = 1;
                             ((Checkable) mData.get(position)).setChecked(true);
+                        } else {
+                            mCheckStates.clear();
+                            mCheckedItemCount = 0;
                         }
                     } else if (mChoiceMode == CHOICE_MODE_MULTIPLE) {
                         boolean checked = !mCheckStates.get(position, false);
@@ -103,6 +104,47 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
         }
     }
 
+    public void setItemChecked(int position, boolean value) {
+        if (mChoiceMode == CHOICE_MODE_NONE) {
+            return;
+        }
+        boolean itemCheckChanged;
+        if (mChoiceMode == CHOICE_MODE_MULTIPLE) {
+            boolean oldValue = mCheckStates.get(position);
+            mCheckStates.put(position, value);
+            itemCheckChanged = oldValue != value;
+            if (itemCheckChanged) {
+                if (value) {
+                    mCheckedItemCount++;
+                } else {
+                    mCheckedItemCount--;
+                }
+            }
+        } else {
+            if (value || isItemChecked(position)) {
+                if (mCheckedItemCount > 0 && mCheckStates.valueAt(0)){
+                    int lastPosition = mCheckStates.keyAt(0);
+                    boolean isCheckedChanged = lastPosition != position;
+                    if (isCheckedChanged){
+                        ((Checkable) mData.get(lastPosition)).setChecked(false);
+                        notifyItemChanged(lastPosition);
+                    }
+                }
+                mCheckStates.clear();
+            }
+            if (value) {
+                mCheckStates.put(position, true);
+                mCheckedItemCount = 1;
+            } else if (mCheckStates.size() == 0 || !mCheckStates.valueAt(0)) {
+                mCheckedItemCount = 0;
+            }
+        }
+        if (mData.get(position) instanceof Checkable) {
+            ((Checkable) mData.get(position)).setChecked(value);
+        }
+        notifyItemChanged(position);
+    }
+
     public boolean hasChecked() {
         return mCheckedItemCount > 0;
     }
@@ -125,11 +167,15 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
         mCheckedItemCount = 0;
     }
 
-    public SparseBooleanArray g() {
+    public SparseBooleanArray getCheckedItemPositions() {
         if (mChoiceMode != CHOICE_MODE_NONE) {
             return mCheckStates;
         }
         return null;
+    }
+
+    public boolean isItemChecked(int position) {
+        return mChoiceMode != CHOICE_MODE_NONE && mCheckStates != null && mCheckStates.get(position);
     }
 
     public void setData(List<T> beans) {
@@ -137,23 +183,15 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
             mData = new ArrayList<>();
         }
         mData.clear();
-        mData.addAll(beans);
-
-//        if (null != mData) {
-//            mData.clear();
-//            if (beans != null) {
-//                mData.addAll(beans);
-//            }
-//        } else {
-//            mData = beans;
-//        }
+        if (beans !=null && !beans.isEmpty()) {
+            mData.addAll(beans);
+        }
     }
 
     public void addData(List<T> beans) {
         if (null == mData) {
             setData(beans);
         } else {
-//            mData.removeAll(beans);
             mData.addAll(beans);
         }
     }
@@ -170,6 +208,12 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
     public void remove(T t) {
         if (null != mData) {
             mData.remove(t);
+        }
+    }
+
+    public void remove(int position) {
+        if (null != mData) {
+            mData.remove(position);
         }
     }
 
@@ -243,7 +287,11 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
             view.setVisibility(isShow ? View.VISIBLE : View.GONE);
         }
 
-    }
+        public void setImageResid(int id, int resourceId) {
+            ImageView imageView = getView(id);
+            imageView.setImageResource(resourceId);
+        }
 
+    }
 
 }
