@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.cq.lannister.recyclerviewdome.ui.ChoiceFragment;
+import com.cq.lannister.recyclerviewdome.ui.ExpressFragment;
 import com.cq.lannister.recyclerviewdome.util.ActivityUtil;
 
 import butterknife.BindView;
@@ -20,6 +21,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new ChoiceFragment(),R.id.container);
+        ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new ExpressFragment(),R.id.container);
     }
 }
