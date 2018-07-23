@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import com.cq.lannister.recyclerviewdome.ui.ChoiceFragment;
 import com.cq.lannister.recyclerviewdome.ui.ExpressFragment;
+import com.cq.lannister.recyclerviewdome.ui.StepRewardFragment;
 import com.cq.lannister.recyclerviewdome.util.ActivityUtil;
 
 import butterknife.BindView;

@@ -69,6 +69,9 @@ public class ExpressFragment extends Fragment{
         expresses.add(new Express("2017-11-07 00:01:19", "[郑州市] 快件离开 [郑州中转]已发往[重庆中转]"));
         expresses.add(new Express("2017-11-07 00:01:19", "[郑州市] 快件离开 [郑州中转]已发往[重庆中转]"));
         expresses.add(new Express("2017-11-07 00:01:19", "[郑州市] 快件离开 [郑州中转]已发往[重庆中转]"));
+        expresses.add(new Express("2017-11-07 00:01:19", "[郑州市] 快件离开 [郑州中转]已发往[重庆中转]"));
+        expresses.add(new Express("2017-11-07 00:01:19", "[郑州市] 快件离开 [郑州中转]已发往[重庆中转]"));
+        expresses.add(new Express("2017-11-07 00:01:19", "[郑州市] 快件离开 [郑州中转]已发往[重庆中转]"));
         expresses.add(new Express("2017-11-06 20:20:06", "[郑州市] [郑州金水一部]的郭昆已收件 电话:12312341234"));
         return expresses;
     }

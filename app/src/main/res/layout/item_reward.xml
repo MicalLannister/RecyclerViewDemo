@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_bg_round"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/receiveDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="累计充值"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        />
+
+    <TextView
+        android:id="@+id/rewardDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10代金券"
+        />
+
+</LinearLayout>
