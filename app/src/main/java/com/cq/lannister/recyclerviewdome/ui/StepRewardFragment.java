@@ -4,19 +4,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.cq.lannister.recyclerviewdome.R;
 import com.cq.lannister.recyclerviewdome.adpter.RewardAdapter;
-import com.cq.lannister.recyclerviewdome.itemdecoration.ExpressDecoration;
 import com.cq.lannister.recyclerviewdome.itemdecoration.RewardDecoration;
 import com.cq.lannister.recyclerviewdome.model.RechargeRewardModel;
+import com.cq.lannister.recyclerviewdome.snaphelper.CustomSnapHelper;
+import com.cq.lannister.recyclerviewdome.util.DisplayHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -26,6 +30,9 @@ public class StepRewardFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.buttonPanel)
+    Button mButton;
 
     RewardAdapter adapter;
 
@@ -50,10 +57,27 @@ public class StepRewardFragment extends Fragment {
     }
 
     private void bindView(View rootView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.addItemDecoration(new RewardDecoration(getActivity()));
         adapter.setData(model.getRewards());
         recyclerView.setAdapter(adapter);
+        CustomSnapHelper snapHelper = new CustomSnapHelper();
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @OnClick(R.id.buttonPanel)
+    void onClick() {
+        int p = 2;
+        int mOffsetLeft = DisplayHelper.dp2px(getActivity(), 24);
+        int childCount = recyclerView.getChildCount();
+        int distance = recyclerView.getPaddingLeft();
+        p = p > childCount ? childCount : p;
+        for (int i = 0; i < p; i++) {
+            View view = recyclerView.getChildAt(i);
+            distance += view.getWidth() + mOffsetLeft*2;
+        }
+        recyclerView.smoothScrollBy(distance, 0);
     }
 
     @Override

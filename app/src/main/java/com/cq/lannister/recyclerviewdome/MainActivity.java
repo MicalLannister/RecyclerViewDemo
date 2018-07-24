@@ -22,6 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new ExpressFragment(),R.id.container);
+        ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new StepRewardFragment(),R.id.container);
     }
 }
