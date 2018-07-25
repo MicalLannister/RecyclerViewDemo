@@ -8,6 +8,7 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -16,11 +17,16 @@ import android.widget.OverScroller;
 /**
  * create by lym on 2018/7/20.
  */
-public class StickyNestedScrollLayout extends LinearLayout implements NestedScrollingParent, NestedScrollingChild {
+public class StickyNestedScrollLayout extends LinearLayout implements NestedScrollingParent {
 
     private View mHeaderView;
     private View mBodyView;
     private int mMaxScrollHeight;
+
+    public void setHeadrRetainHeight(int headrRetainHeight) {
+        mHeadrRetainHeight = headrRetainHeight;
+    }
+
     private int mHeadrRetainHeight;
     private OverScroller mScroller;
 
@@ -41,7 +47,6 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         mScroller = new OverScroller(context);
         setOrientation(VERTICAL);
-        setNestedScrollingEnabled(true);
     }
 
     @Override
@@ -49,8 +54,8 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
         super.onFinishInflate();
         mHeaderView = getChildAt(0);
         mBodyView = getChildAt(1);
-//        mHeaderView.setFocusable(true);
-//        mHeaderView.setClickable(true);
+        mHeaderView.setFocusable(true);
+        mHeaderView.setClickable(true);
     }
 
     @Override
@@ -70,6 +75,7 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
         if (mBodyView.getLayoutParams().height < getMeasuredHeight() - mHeadrRetainHeight) {
             mBodyView.getLayoutParams().height = getMeasuredHeight() - mHeadrRetainHeight;
         }
+        Log.e("mical","height"+mHeaderView.getMeasuredHeight());
         setMeasuredDimension(getMeasuredWidth(), mBodyView.getLayoutParams().height + mHeaderView.getMeasuredHeight());
     }
 
