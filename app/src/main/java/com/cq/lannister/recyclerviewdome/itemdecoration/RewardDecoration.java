@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.cq.lannister.recyclerviewdome.model.entity.StepReward;
@@ -40,20 +41,25 @@ public class RewardDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
-        int childCount = parent.getLayoutManager().getChildCount();
+        /*最开始用的是parent.getChild(int index)导致屏幕可显示的的第一次item总是当做全部的第一个导致异常的显示
+        * 用findViewByPosition(int position)就是相当于adapter里面的位置*/
+
+        int childCount = parent.getLayoutManager().getItemCount();
         for (int i = 0; i < childCount; i++) {
-            View view = parent.getChildAt(i);
-            parent.getLayoutManager().getChildAt(i);
+            View view = parent.getLayoutManager().findViewByPosition(i);
+            if (view == null) {
+                continue;
+            }
             mPaint.setStyle(Paint.Style.STROKE);
             float dividerTop = parent.getPaddingTop();
             float dividerLeft = view.getLeft() - mOffsetLeft;
             float dividerRight = view.getRight() + mOffsetLeft;
-
             float centerX = (view.getLeft() + view.getRight()) >> 1;
             float centerY = (dividerTop + view.getTop()) / 2;
             if (i > 0) {
                 c.drawLine(dividerLeft, centerY, dividerRight, centerY, mPaint);
             }
+
         }
     }
 

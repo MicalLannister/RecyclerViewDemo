@@ -11,6 +11,12 @@ import android.view.View;
  */
 public class CustomSnapHelper  extends LinearSnapHelper {
     private OrientationHelper mHorizontalHelper;
+    private boolean isLast = false;
+
+    public CustomSnapHelper(boolean isLast) {
+        this.isLast = isLast;
+    }
+
     @Override
     public int[] calculateDistanceToFinalSnap(RecyclerView.LayoutManager layoutManager, View targetView) {
         int[] out = new int[2];
@@ -38,7 +44,7 @@ public class CustomSnapHelper  extends LinearSnapHelper {
                 return null;
             }
             //这行的作用是如果是最后一个，翻到最后一条，解决显示不全的问题
-            if (lastChild == layoutManager.getItemCount() - 1) {
+            if (lastChild == layoutManager.getItemCount() - 1 && isLast) {
                 return layoutManager.findViewByPosition(lastChild);
             }
             View child = layoutManager.findViewByPosition(firstChild);

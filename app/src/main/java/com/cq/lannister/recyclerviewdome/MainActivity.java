@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import com.cq.lannister.recyclerviewdome.ui.ChoiceFragment;
 import com.cq.lannister.recyclerviewdome.ui.ExpressFragment;
+import com.cq.lannister.recyclerviewdome.ui.NestedScrollFragment;
 import com.cq.lannister.recyclerviewdome.ui.StepRewardFragment;
 import com.cq.lannister.recyclerviewdome.util.ActivityUtil;
 
@@ -22,6 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new StepRewardFragment(),R.id.container);
+        ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new NestedScrollFragment(),R.id.container);
     }
 }

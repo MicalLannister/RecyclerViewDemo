@@ -58,22 +58,39 @@ public class ExpressDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
-        int childCount = parent.getChildCount();
+        int childCount = parent.getLayoutManager().getItemCount();
+        float dividerTop;
+        float dividerLeft;
+        float dividerBottom;
+        float centerX;
+        float centerY;
+        float upLineTopX;
+        float upLineTopY;
+        float upLineBottomX;
+        float upLineBottomY;
+        float downLineTopX;
+        float downLineTopY;
+        float downLineBottomX;
+        float downLineBottomY;
         for (int i = 0; i < childCount; i++) {
 
-            View view = parent.getChildAt(i);
+            View view = parent.getLayoutManager().findViewByPosition(i);
 
-            float dividerTop = view.getTop() - mOffsetTop;
-            float dividerLeft = parent.getPaddingLeft();
-            float dividerBottom = view.getBottom() + mOffsetTop;
+            if (view == null) {
+                continue;
+            }
 
-            float centerX = dividerLeft + mOffsetLeft / 2;
-            float centerY = dividerTop + mOffsetTop + mNodeInterval * 2;
+            dividerTop = view.getTop() - mOffsetTop;
+            dividerLeft = parent.getPaddingLeft();
+            dividerBottom = view.getBottom() + mOffsetTop;
 
-            float upLineTopX = centerX;
-            float upLineTopY = dividerTop;
-            float upLineBottomX = centerX;
-            float upLineBottomY = centerY - mNodeRadius - mNodeInterval;
+            centerX = dividerLeft + mOffsetLeft / 2;
+            centerY = dividerTop + mOffsetTop + mNodeInterval * 2;
+
+            upLineTopX = centerX;
+            upLineTopY = dividerTop;
+            upLineBottomX = centerX;
+            upLineBottomY = centerY - mNodeRadius - mNodeInterval;
 
             //绘制上半部轴线
             if (i > 0) {
@@ -82,16 +99,16 @@ public class ExpressDecoration extends RecyclerView.ItemDecoration {
 
             //绘制时间轴结点
             if (i == 0) {
-                c.drawBitmap(mIcon, centerX - mIconWidth / 2, centerY- mIconWidth / 2, mPaint);
+                c.drawBitmap(mIcon, centerX - mIconWidth / 2, centerY - mIconWidth / 2, mPaint);
             } else {
                 mPaint.setStyle(Paint.Style.STROKE);
                 c.drawCircle(centerX, centerY, mNodeRadius, mPaint);
             }
 
-            float downLineTopX = centerX;
-            float downLineTopY = centerY + mNodeRadius + mNodeInterval;
-            float downLineBottomX = centerX;
-            float downLineBottomY = dividerBottom;
+            downLineTopX = centerX;
+            downLineTopY = centerY + mNodeRadius + mNodeInterval;
+            downLineBottomX = centerX;
+            downLineBottomY = dividerBottom;
 
             //绘制上半部轴线
             mPaint.setStyle(Paint.Style.FILL_AND_STROKE);

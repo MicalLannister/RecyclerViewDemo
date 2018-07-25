@@ -21,6 +21,17 @@ public class BrandModel {
         brands.add(new Brand("FaceBook"));
         brands.add(new Brand("Google"));
         brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
+        brands.add(new Brand("Alibaba"));
         return brands;
     }
 }

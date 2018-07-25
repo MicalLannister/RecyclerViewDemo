@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,14 +63,14 @@ public class StepRewardFragment extends Fragment {
         recyclerView.addItemDecoration(new RewardDecoration(getActivity()));
         adapter.setData(model.getRewards());
         recyclerView.setAdapter(adapter);
-        CustomSnapHelper snapHelper = new CustomSnapHelper();
+        CustomSnapHelper snapHelper = new CustomSnapHelper(false);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
     }
 
     @OnClick(R.id.buttonPanel)
     void onClick() {
-        int p = 2;
+        int p = 1;
         int mOffsetLeft = DisplayHelper.dp2px(getActivity(), 24);
         int childCount = recyclerView.getChildCount();
         int distance = recyclerView.getPaddingLeft();
@@ -76,8 +78,15 @@ public class StepRewardFragment extends Fragment {
         for (int i = 0; i < p; i++) {
             View view = recyclerView.getChildAt(i);
             distance += view.getWidth() + mOffsetLeft*2;
+            Log.e("mical","mearsure:->"+(view.getWidth() + mOffsetLeft*2));
         }
         recyclerView.smoothScrollBy(distance, 0);
+
+        OrientationHelper mVerticalHelper = OrientationHelper.createVerticalHelper(recyclerView.getLayoutManager());
+        int start = mVerticalHelper.getDecoratedStart(recyclerView.getLayoutManager().findViewByPosition(1));
+        Log.e("mical","start:"+start);
+        Log.e("mical","total:"+mVerticalHelper.getDecoratedMeasurement(recyclerView.getChildAt(1)));
+//        recyclerView.smoothScrollBy(start,0);
     }
 
     @Override
