@@ -23,11 +23,11 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
     private View mBodyView;
     private int mMaxScrollHeight;
 
-    public void setHeadrRetainHeight(int headrRetainHeight) {
-        mHeadrRetainHeight = headrRetainHeight;
+    public void setHeadrRetainHeight(int headerRetainHeight) {
+        mHeaderRetainHeight = headerRetainHeight;
     }
 
-    private int mHeadrRetainHeight;
+    private int mHeaderRetainHeight;
     private OverScroller mScroller;
 
     private NestedScrollingChildHelper mNestedScrollingChildHelper;
@@ -70,13 +70,17 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mHeaderView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-        mMaxScrollHeight = mHeaderView.getMeasuredHeight() - mHeadrRetainHeight;
+        mMaxScrollHeight = mHeaderView.getMeasuredHeight() - mHeaderRetainHeight;
         //设置主体的高度：代码中设置match_parent
-        if (mBodyView.getLayoutParams().height < getMeasuredHeight() - mHeadrRetainHeight) {
-            mBodyView.getLayoutParams().height = getMeasuredHeight() - mHeadrRetainHeight;
+        if (mBodyView.getLayoutParams().height < getMeasuredHeight() - mHeaderRetainHeight) {
+            mBodyView.getLayoutParams().height = getMeasuredHeight() - mHeaderRetainHeight;
         }
-        Log.e("mical","height"+mHeaderView.getMeasuredHeight());
         setMeasuredDimension(getMeasuredWidth(), mBodyView.getLayoutParams().height + mHeaderView.getMeasuredHeight());
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
     }
 
     @Override
@@ -110,7 +114,18 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        return super.onNestedFling(target, velocityX, velocityY, consumed);
+        if (ViewCompat.canScrollVertically(target,-1)){
+            return false;
+        }
+        if (velocityX ==0 && velocityY != 0){
+            //上滑&&头部可以滑动状态 -> 滑动到导航栏
+            if (velocityY > 0 && getScrollY() < mHeaderView.getHeight() - mHeaderRetainHeight){
+
+            }
+            //下滑&&滑动惯性可以滑动到导航栏 -> 滚到到导航栏
+
+        }
+        return false;
     }
 
     @Override

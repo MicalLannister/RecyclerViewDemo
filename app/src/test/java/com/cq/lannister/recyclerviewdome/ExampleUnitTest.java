@@ -14,4 +14,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void testStringFormat(){
+        double dif = 2.33333;
+        String var = String.format("还差%.1f元可领取", dif);
+        System.out.println(var);
+    }
 }
