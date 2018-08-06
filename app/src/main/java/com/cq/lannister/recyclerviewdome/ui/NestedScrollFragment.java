@@ -46,7 +46,7 @@ public class NestedScrollFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_nested_scroll,container,false);
         unbinder = ButterKnife.bind(this, rootView);
         if (rootView instanceof StickyNestedScrollLayout){
-            ((StickyNestedScrollLayout) rootView).setHeadrRetainHeight(DisplayHelper.dp2px(getActivity(),32));
+            ((StickyNestedScrollLayout) rootView).setHeaderRetainHeight(DisplayHelper.dp2px(getActivity(),32));
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.setData(mBrandModel.brandList());

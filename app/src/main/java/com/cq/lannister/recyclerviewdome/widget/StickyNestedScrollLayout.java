@@ -1,5 +1,6 @@
 package com.cq.lannister.recyclerviewdome.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.view.NestedScrollingChild;
@@ -11,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.OverScroller;
 
@@ -22,30 +24,29 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
     private View mHeaderView;
     private View mBodyView;
     private int mMaxScrollHeight;
+    private ValueAnimator mScrollAnimator;
 
-    public void setHeadrRetainHeight(int headerRetainHeight) {
+    public void setHeaderRetainHeight(int headerRetainHeight) {
         mHeaderRetainHeight = headerRetainHeight;
     }
 
     private int mHeaderRetainHeight;
-    private OverScroller mScroller;
 
     private NestedScrollingChildHelper mNestedScrollingChildHelper;
     private NestedScrollingParentHelper mNestedScrollingParentHelper;
 
     public StickyNestedScrollLayout(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public StickyNestedScrollLayout(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, 0);
+        this(context, attrs, 0);
     }
 
     public StickyNestedScrollLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
-        mScroller = new OverScroller(context);
         setOrientation(VERTICAL);
     }
 
@@ -109,27 +110,64 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
 
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
-        return super.onNestedPreFling(target, velocityX, velocityY);
+        if (ViewCompat.canScrollVertically(target, -1)) {
+            return false;
+        }
+        if (mScrollAnimator != null && mScrollAnimator.isStarted()) {
+            mScrollAnimator.cancel();
+        }
+        if (velocityX == 0 && velocityY != 0) {
+            if (velocityY > 0) {
+                scrollTo(0, mMaxScrollHeight);
+            } else {
+                scrollTo(0, 0);
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        if (ViewCompat.canScrollVertically(target,-1)){
-            return false;
-        }
-        if (velocityX ==0 && velocityY != 0){
-            //上滑&&头部可以滑动状态 -> 滑动到导航栏
-            if (velocityY > 0 && getScrollY() < mHeaderView.getHeight() - mHeaderRetainHeight){
+        return super.onNestedFling(target, velocityX, velocityY, consumed);
+    }
 
+    private void smoothToSticky(float velocityY) {
+        float velY = velocityY / 1000f;
+        if (Math.abs(velY) < 1f) {
+            return;
+        }
+        final float fromY = getScaleY();
+        final float toY = fromY + velY * 300L;
+        mScrollAnimator = ValueAnimator.ofFloat(1f)
+                .setDuration(300L);
+        mScrollAnimator.setInterpolator(new DecelerateInterpolator(2.0f));
+        mScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float fraction = animation.getAnimatedFraction();
+                float curY = (toY - fromY) * fraction + fromY;
+                if (curY < 0) {
+                    scrollTo(0, 0);
+                } else if (curY > mMaxScrollHeight) {
+                    scrollTo(0, mMaxScrollHeight);
+                } else {
+                    scrollTo(0, (int) curY);
+                }
             }
-            //下滑&&滑动惯性可以滑动到导航栏 -> 滚到到导航栏
-
-        }
-        return false;
+        });
+        mScrollAnimator.start();
     }
 
     @Override
     public void onStopNestedScroll(View child) {
         super.onStopNestedScroll(child);
     }
+
+
+    @Override
+    public void scrollTo(int x, int y) {
+        super.scrollTo(x, y);
+    }
+
 }

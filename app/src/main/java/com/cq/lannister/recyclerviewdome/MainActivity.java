@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.cq.lannister.recyclerviewdome.ui.ChoiceFragment;
+import com.cq.lannister.recyclerviewdome.ui.DemoFragment;
 import com.cq.lannister.recyclerviewdome.ui.ExpressFragment;
 import com.cq.lannister.recyclerviewdome.ui.NestedScrollFragment;
 import com.cq.lannister.recyclerviewdome.ui.StepRewardFragment;
