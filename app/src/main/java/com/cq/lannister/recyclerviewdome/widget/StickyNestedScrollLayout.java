@@ -3,24 +3,20 @@ package com.cq.lannister.recyclerviewdome.widget;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.view.NestedScrollingChild;
-import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.NestedScrollingParent;
-import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
-import android.widget.OverScroller;
 
 /**
  * create by lym on 2018/7/20.
  */
 public class StickyNestedScrollLayout extends LinearLayout implements NestedScrollingParent {
 
+    private static final long DEFAULT_DURATION = 250L;
     private View mHeaderView;
     private View mBodyView;
     private int mMaxScrollHeight;
@@ -32,9 +28,6 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
 
     private int mHeaderRetainHeight;
 
-    private NestedScrollingChildHelper mNestedScrollingChildHelper;
-    private NestedScrollingParentHelper mNestedScrollingParentHelper;
-
     public StickyNestedScrollLayout(Context context) {
         this(context, null);
     }
@@ -45,8 +38,6 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
 
     public StickyNestedScrollLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
-        mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         setOrientation(VERTICAL);
     }
 
@@ -110,53 +101,55 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
 
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
-        if (ViewCompat.canScrollVertically(target, -1)) {
-            return false;
+        int headerViewScrollDis = mMaxScrollHeight - getScrollY();
+        //velocityY > 0  上滑
+        if (velocityY > 0 && headerViewScrollDis > 0) {
+            startFling(velocityY);
+            return true;
         }
-        if (mScrollAnimator != null && mScrollAnimator.isStarted()) {
-            mScrollAnimator.cancel();
-        }
-        if (velocityX == 0 && velocityY != 0) {
-            if (velocityY > 0) {
-                scrollTo(0, mMaxScrollHeight);
-            } else {
-                scrollTo(0, 0);
-            }
+        //velocityY < 0 下滑
+        if (velocityY < 0 && !ViewCompat.canScrollVertically(target, -1) && getScrollY() > 0) {
+            startFling(velocityY);
             return true;
         }
         return false;
     }
 
+    private void startFling(float velocityY) {
+        float velY = normalize(velocityY);
+        if (Math.abs(velY) < 1f) return;
+        final int fromY = getScrollY();
+        final int toY = (int) (fromY + velY * DEFAULT_DURATION);
+        if (mScrollAnimator != null && mScrollAnimator.isStarted()) {
+            mScrollAnimator.cancel();
+        }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollAnimator = ValueAnimator.ofFloat(1f);
+                mScrollAnimator.setInterpolator(new DecelerateInterpolator(2f));
+                mScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float percent = animation.getAnimatedFraction();
+                        float curY = ((toY - fromY) * percent + fromY);
+                        scrollTo(0, (int) curY);
+                    }
+                });
+                mScrollAnimator.setDuration(DEFAULT_DURATION);
+                mScrollAnimator.start();
+            }
+        });
+    }
+
+    private float normalize(float velocityY) {
+        return velocityY / 1000f;
+    }
+
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
         return super.onNestedFling(target, velocityX, velocityY, consumed);
-    }
 
-    private void smoothToSticky(float velocityY) {
-        float velY = velocityY / 1000f;
-        if (Math.abs(velY) < 1f) {
-            return;
-        }
-        final float fromY = getScaleY();
-        final float toY = fromY + velY * 300L;
-        mScrollAnimator = ValueAnimator.ofFloat(1f)
-                .setDuration(300L);
-        mScrollAnimator.setInterpolator(new DecelerateInterpolator(2.0f));
-        mScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float fraction = animation.getAnimatedFraction();
-                float curY = (toY - fromY) * fraction + fromY;
-                if (curY < 0) {
-                    scrollTo(0, 0);
-                } else if (curY > mMaxScrollHeight) {
-                    scrollTo(0, mMaxScrollHeight);
-                } else {
-                    scrollTo(0, (int) curY);
-                }
-            }
-        });
-        mScrollAnimator.start();
     }
 
     @Override
@@ -167,6 +160,11 @@ public class StickyNestedScrollLayout extends LinearLayout implements NestedScro
 
     @Override
     public void scrollTo(int x, int y) {
+        if (y < 0){
+            y = 0;
+        }else if (y > mMaxScrollHeight){
+            y = mMaxScrollHeight;
+        }
         super.scrollTo(x, y);
     }
 
