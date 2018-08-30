@@ -6,8 +6,6 @@ AbsRecycleAdapter为RecyclerView的快速数据适配类,而且集成了单选�
 ![sinle.jpg](http://upload-images.jianshu.io/upload_images/685394-822108d27c974469.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 多选样式图：
 ![multichoice.jpg](http://upload-images.jianshu.io/upload_images/685394-68743dccd93ac299.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-多选后的结果图：
-![result.jpg](http://upload-images.jianshu.io/upload_images/685394-c60de5dff122e2fb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ExpressAdapter是演示RecyclerView的itemDororation实现物流信息的视图。
 ![itemdecoration](https://upload-images.jianshu.io/upload_images/685394-93d5771213c3b079.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
