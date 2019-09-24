@@ -1,8 +1,8 @@
 package com.cq.lannister.recyclerviewdome.adpter;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;

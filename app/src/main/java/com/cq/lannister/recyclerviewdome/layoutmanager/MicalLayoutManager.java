@@ -1,6 +1,6 @@
 package com.cq.lannister.recyclerviewdome.layoutmanager;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by lannister on 2017/8/19.

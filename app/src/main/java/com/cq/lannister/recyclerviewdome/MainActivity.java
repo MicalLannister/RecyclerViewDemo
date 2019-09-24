@@ -1,14 +1,11 @@
 package com.cq.lannister.recyclerviewdome;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
-import com.cq.lannister.recyclerviewdome.ui.ChoiceFragment;
-import com.cq.lannister.recyclerviewdome.ui.DemoFragment;
 import com.cq.lannister.recyclerviewdome.ui.ExpressFragment;
 import com.cq.lannister.recyclerviewdome.ui.NestedScrollFragment;
-import com.cq.lannister.recyclerviewdome.ui.StepRewardFragment;
 import com.cq.lannister.recyclerviewdome.util.ActivityUtil;
 
 import butterknife.BindView;

@@ -20,7 +20,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -129,6 +132,7 @@ public class ForegroundLinearLayout extends LinearLayout {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void drawableHotspotChanged(float x, float y) {
         super.drawableHotspotChanged(x, y);
