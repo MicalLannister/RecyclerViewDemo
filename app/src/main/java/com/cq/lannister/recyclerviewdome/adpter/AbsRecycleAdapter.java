@@ -205,16 +205,23 @@ public abstract class AbsRecycleAdapter<T> extends RecyclerView.Adapter<AbsRecyc
         }
     }
 
+    public void addData(int index,T t){
+        if (mData != null) {
+            mData.add(index, t);
+        }
+    }
+
     public void remove(T t) {
         if (null != mData) {
             mData.remove(t);
         }
     }
 
-    public void remove(int position) {
+    public T remove(int position) {
         if (null != mData) {
-            mData.remove(position);
+            return mData.remove(position);
         }
+        return null;
     }
 
     public List<T> getData() {

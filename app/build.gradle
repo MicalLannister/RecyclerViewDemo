@@ -30,5 +30,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.jakewharton:butterknife:10.2.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha01'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 }
