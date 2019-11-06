@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        //每个特性效果对应一个Fragment，如果要看制定效果就替换掉下面的Fragment类。
         ActivityUtil.addFragmentToActivity(getSupportFragmentManager(),new ReorderFragment(),R.id.container);
     }
 

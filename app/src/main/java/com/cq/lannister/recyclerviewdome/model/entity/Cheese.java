@@ -66,7 +66,7 @@ public class Cheese {
         return result;
     }
 
-    public static class DIFF_CALLBACK extends DiffUtil.ItemCallback<Cheese>{
+    public static class DiffCallback extends DiffUtil.ItemCallback<Cheese>{
 
         @Override
         public boolean areItemsTheSame(@NonNull Cheese oldItem, @NonNull Cheese newItem) {

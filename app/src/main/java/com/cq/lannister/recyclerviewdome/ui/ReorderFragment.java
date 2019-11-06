@@ -45,9 +45,9 @@ public class ReorderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reorder,container,false);
         unbinder = ButterKnife.bind(this, rootView);
-        int smallSpace = getResources().getDimensionPixelSize(R.dimen.spacing_small);
+        int mediumSpace = getResources().getDimensionPixelSize(R.dimen.spacing_medium);
         pickUpElevation = getResources().getDimension(R.dimen.pick_up_elevation);
-        mRecyclerView.addItemDecoration(new SpaceDecoration(smallSpace, smallSpace));
+        mRecyclerView.addItemDecoration(new SpaceDecoration(mediumSpace, mediumSpace));
         mItemTouchHelper = new ItemTouchHelper(touchHelperCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         mAdapter = new ReorderAdapter();

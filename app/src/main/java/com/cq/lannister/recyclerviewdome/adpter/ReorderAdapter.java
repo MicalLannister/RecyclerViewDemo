@@ -20,11 +20,6 @@ public class ReorderAdapter extends AbsRecycleAdapter<Cheese>{
     }
 
     @Override
-    public long getItemId(int position) {
-        return getItem(position).id;
-    }
-
-    @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         VH vh = super.onCreateViewHolder(parent, viewType);
         vh.itemView.setOnLongClickListener(v -> {
@@ -35,6 +30,11 @@ public class ReorderAdapter extends AbsRecycleAdapter<Cheese>{
             return false;
         });
         return vh;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).id;
     }
 
     @Override
@@ -56,4 +56,5 @@ public class ReorderAdapter extends AbsRecycleAdapter<Cheese>{
     public interface OnItemLongClickListener{
         void onItemLongClick(RecyclerView.ViewHolder viewHolder);
     }
+
 }
