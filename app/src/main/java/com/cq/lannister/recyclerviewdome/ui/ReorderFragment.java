@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cq.lannister.recyclerviewdome.R;
 import com.cq.lannister.recyclerviewdome.adpter.ReorderAdapter;
 import com.cq.lannister.recyclerviewdome.itemdecoration.SpaceDecoration;
+import com.cq.lannister.recyclerviewdome.model.FakeCheeseDataSource;
 import com.cq.lannister.recyclerviewdome.model.entity.Cheese;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class ReorderFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
+    FakeCheeseDataSource mDataSource;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class ReorderFragment extends Fragment {
         unbinder = ButterKnife.bind(this, rootView);
         int mediumSpace = getResources().getDimensionPixelSize(R.dimen.spacing_medium);
         pickUpElevation = getResources().getDimension(R.dimen.pick_up_elevation);
+        mDataSource = new FakeCheeseDataSource();
         mRecyclerView.addItemDecoration(new SpaceDecoration(mediumSpace, mediumSpace));
         mItemTouchHelper = new ItemTouchHelper(touchHelperCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -66,10 +70,7 @@ public class ReorderFragment extends Fragment {
     }
 
     private void show() {
-        List<Cheese> list = new ArrayList<>(15);
-        for (int i = 0; i < 15; i++) {
-            list.add(Cheese.generator());
-        }
+        List<Cheese> list = mDataSource.syncGetCheeses(15);
         mAdapter.setData(list);
         mAdapter.notifyDataSetChanged();
     }

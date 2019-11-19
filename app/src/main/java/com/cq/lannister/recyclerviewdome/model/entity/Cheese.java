@@ -23,9 +23,8 @@ public class Cheese {
         this.image = image;
     }
 
-    public static Cheese generator(){
-        Random random = new Random();
-        int index = 1;
+    public static Cheese generateNew(){
+        int index = new Random().nextInt(NAMES.length);
         int imageIndex = index%IMAGES.length;
         int nameIndex = index%NAMES.length;
         return new Cheese(index,NAMES[nameIndex],IMAGES[imageIndex]);
@@ -51,7 +50,20 @@ public class Cheese {
             "Baylough", "Beaufort", "Beauvoorde", "Beenleigh Blue", "Beer Cheese", "Bel Paese",
             "Bergader", "Bergere Bleue", "Berkswell", "Beyaz Peynir", "Bierkase", "Bishop Kennedy",
             "Blarney", "Bleu d'Auvergne", "Bleu de Gex", "Bleu de Laqueuille",
-            "Bleu de Septmoncel", "Bleu Des Causses", "Blue", "Blue Castello", "Blue Rathgore"
+            "Bleu de Septmoncel", "Bleu Des Causses", "Blue", "Blue Castello", "Blue Rathgore",
+            "Pencarreg", "Perail de Brebis", "Petit Morin", "Petit Pardou", "Petit-Suisse",
+            "Picodon de Chevre", "Picos de Europa", "Piora", "Pithtviers au Foin",
+            "Plateau de Herve", "Plymouth Cheese", "Podhalanski", "Poivre d'Ane", "Polkolbin",
+            "Pont l'Eveque", "Port Nicholson", "Port-Salut", "Postel", "Pouligny-Saint-Pierre",
+            "Pourly", "Prastost", "Pressato", "Prince-Jean", "Processed Cheddar", "Provolone",
+            "Provolone (Australian)", "Pyengana Cheddar", "Pyramide", "Quark",
+            "Quark (Australian)", "Quartirolo Lombardo", "Quatre-Vents", "Quercy Petit",
+            "Queso Blanco", "Queso Blanco con Frutas --Pina y Mango", "Queso de Murcia",
+            "Queso del Montsec", "Queso del Tietar", "Queso Fresco", "Queso Fresco (Adobera)",
+            "Queso Iberico", "Queso Jalapeno", "Queso Majorero", "Queso Media Luna",
+            "Queso Para Frier", "Queso Quesadilla", "Rabacal", "Raclette", "Ragusano", "Raschera",
+            "Reblochon", "Red Leicester", "Regal de la Dombes", "Reggianito", "Remedou",
+            "Requeson", "Richelieu", "Ricotta", "Ricotta (Australian)", "Ricotta Salata", "Ridder"
     };
 
     @Override
