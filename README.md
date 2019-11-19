@@ -4,8 +4,12 @@ A RecyclerView demo &amp; BestPractice, em i think.
 AbsRecycleAdapter为RecyclerView的快速数据适配类,而且集成了单选和多选功能，视图可以完全自定义哦。
 单选样式图：
 ![sinle.jpg](https://ask.qcloudimg.com/draft/1025645/zxusmfmhzv.jpg)
+
+
 多选样式图：
 ![multichoice.jpg](https://ask.qcloudimg.com/draft/1025645/myqqxs3fq2.jpg)
+
+
 
 ExpressAdapter是演示RecyclerView的itemDororation实现物流信息的视图。
 ![itemdecoration](https://ask.qcloudimg.com/draft/1025645/54lvp6eu9e.jpg)
